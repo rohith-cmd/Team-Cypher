@@ -13,6 +13,11 @@ import Spinner from "react-bootstrap/Spinner"
 const Search = ()=>{
   const [from,setfrom] = useState(" ");
   const [to,setTo] = useState(" ");
+  const [distance,setdistance] = useState("");
+  const [origin,setOrigin] = useState("");
+  const [destination,setdestination] = useState("");
+  const [clicked,setcliked] = useState("")
+
 
   const handleTO = (value)=>{
     setTo(value)
@@ -22,14 +27,22 @@ const Search = ()=>{
   }
 
 const postData = ()=>{
+    setcliked(true);
     const data = {
       "start":from,
       "end":to
     }
     axios.post("https://asia-south1-electrek-308100.cloudfunctions.net/app/search",data)
-    .then(res=>console.log(res))
+    .then(res=> 
+    {
+    console.log(res)
+    setdistance(res.data.rows[0].elements[0].distance.value)
+    setOrigin(res.data.origin_addresses);
+    setdestination(res.data.destination_addresses);
+    })
     .catch(err=>console.log(err));
 }
+    
     return(
       <div>
       <Logo/>
@@ -88,14 +101,14 @@ const postData = ()=>{
                     )
                   })}
                 </div>
-                <Link to={{
-                     pathname:"/select"
+                   {distance ? <Link to={{
+                     pathname: `/select/${distance}/${origin}/${destination}`,
                     }
                   }>
-                  <Button onClick={postData} variant="outline-success" size="lg">Lets go</Button>
-                  </Link>
+                  <Button variant="outline-success" size="lg">Choose Mode</Button>
+                  </Link>:<Button variant="outline-success" size ="lg" onClick={postData}>{clicked?<Spinner animation="border" variant="success" role="status"/>:"Calcualte distance"}</Button>}
               </div>
-            )
+            ) 
           }
         }
       </PlacesAutocomplete>   

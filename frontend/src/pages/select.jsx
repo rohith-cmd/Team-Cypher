@@ -7,7 +7,8 @@ import Button from "react-bootstrap/Button"
 import "../styles/select.css"
 import {Link} from "react-router-dom"
 
-const Select = ()=>{
+const Select = (props)=>{
+    console.log(props)
     return(
         <div>
             <Logo/>
@@ -20,7 +21,7 @@ const Select = ()=>{
         <Row>
         <Col xs="3">
         <Link to={{
-            pathname:"/bike",
+            pathname:`/bike/${props.match.params.distance}/${props.match.params.origin}/${props.match.params.destination}`,
         }}>
         <Button  size="lg" variant="outline-success">Bike</Button>
         </Link>
@@ -32,13 +33,28 @@ const Select = ()=>{
     </Dropdown.Toggle>
 
     <Dropdown.Menu>
-    <Dropdown.Item href="#/action-1">Small Petrol</Dropdown.Item>
-    <Dropdown.Item href="#/action-2">Medium Petrol</Dropdown.Item>
-    <Dropdown.Item href="#/action-3">Large Petrol</Dropdown.Item>
-    <Dropdown.Item href="#/action-3">Average Petrol</Dropdown.Item>
-    <Dropdown.Item href="#/action-3">Small Diesel</Dropdown.Item>
-    <Dropdown.Item href="#/action-3">Large Diesel</Dropdown.Item>
-    <Dropdown.Item href="#/action-3">Average Diesel</Dropdown.Item>
+    
+    <Dropdown.Item className="remove">
+    <Link to={{
+        pathname:`/smallpetrol/${props.match.params.distance}/${props.match.params.origin}/${props.match.params.destination}`,
+    }
+    }>
+    Small Petrol
+    </Link>
+    </Dropdown.Item>
+    <Dropdown.Item className="remove" >
+    <Link to={{
+        pathname:`/mediumpetrol/${props.match.params.distance}/${props.match.params.origin}/${props.match.params.destination}`,
+    }
+    }>
+    Medium Petrol
+    </Link>
+    </Dropdown.Item>
+    <Dropdown.Item  className="remove">Large Petrol</Dropdown.Item>
+    <Dropdown.Item  className="remove">Average Petrol</Dropdown.Item>
+    <Dropdown.Item  className="remove">Small Diesel</Dropdown.Item>
+    <Dropdown.Item  className="remove">Large Diesel</Dropdown.Item>
+    <Dropdown.Item  className="remove">Average Diesel</Dropdown.Item>
     </Dropdown.Menu>
     </Dropdown>
         </Col>
@@ -47,9 +63,8 @@ const Select = ()=>{
     <Dropdown.Toggle size="lg" variant="success" id="dropdown-basic">
     EV
     </Dropdown.Toggle>
-
     <Dropdown.Menu>
-    <Dropdown.Item href="#/action-1">Electic car</Dropdown.Item>
+    <Dropdown.Item href="#/action-1">Electic Car</Dropdown.Item>
     <Dropdown.Item href="#/action-2">Electric Bike </Dropdown.Item>
     </Dropdown.Menu>
     </Dropdown>

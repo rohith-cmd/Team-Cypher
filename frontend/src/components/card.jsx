@@ -1,71 +1,83 @@
-import React ,{ useEffect, useState } from "react"
+import React  from "react"
 import Card from "react-bootstrap/Card"
 import { Container, Row, Col } from 'react-bootstrap';
 import "../styles/card.css"
-import axios from "axios" 
+import Logo from "./logo"
+import Navbar from "./navbar"
+import Spinner from "react-bootstrap/Spinner"
 
-const Cards = ()=>{
-  const[response,setResponse] = useState('')
-  useEffect(()=>{
-    axios.get("https://asia-south1-electrek-308100.cloudfunctions.net/app/bike")
-    .then(res=>setResponse(res.data))
-    .catch(err=>console.log(err))
-},[])
+const Cards = (props)=>{
+  console.log(props)
     return(
-        <div className="arrange">
-       <Container>
-  <Row>
-    <Col size>
-    <Card  style={{ width:'30rem',height:'30rem' }}>
-      
-    <Card.Body>
-    <Card.Title className="increase-title" >Bike</Card.Title>
-    <Card.Text className="increase-body">
-      Total distace: {response.total_distance} <br/>
-      Total fuelcost: {response.fuel_cost} <br/>
-      Carbon emissions:{response.carbon_emissions} <br/>
-    </Card.Text>
-    </Card.Body>
-    </Card>
-    </Col>
-    <Col>
-    <Card  bg="success" style={{ width: '30rem',height:'30rem' }}>
-    <Card.Body>
-    <Card.Title  className="increase-title" >EV Car</Card.Title>
-    <Card.Text className="increase-body">
-      Electricity Cost: {response.evcar_charge}<br/>
-      Carbon Emisssions: {response.evcar_carbon_emissions_usage} <br/>
-      Manufaturing carbon emissions: {response.evcar_carbon_emission_production} <br/>
-    </Card.Text  >
-    </Card.Body>
-    </Card>
-    </Col>
-    <Col>
-    <Card bg="success" style={{ width: '30rem',height:'30rem' }}>
-    <Card.Body>
-    <Card.Title  className="increase-title" >EV Bike</Card.Title>
-    <Card.Text  className="increase-body">
-    Electricity Cost: {response.evbike_charge} <br/>
-    Carbon Emisssions: {response.evbike_carbon_emissions} <br/>
-    Manufaturing carbon emissions: {response.evbike_carbon_emission_production} <br/>
-    </Card.Text>
-    </Card.Body>
-    </Card>
-    </Col>
-    <Col>
-    <Card style={{ width:'30rem',height:'30rem'}}>
-    <Card.Body>
-    <Card.Title  className="increase-title" >BMTC</Card.Title>
-    <Card.Text className="increase-body">
-      Bmtc cost: {response.BMTC_charge} <br/>
-      Carbon emission : {response.BMTC_carbon_emissions}
-    </Card.Text>
-    </Card.Body>
-    </Card>
-    </Col>
+      <div>
+      <Logo/>
+      <Navbar/>
+      {!props.distance?<Spinner className="bike-spinner" animation="border" variant="success" role="status" />:
+      <div>
+      <div className="navi">
+      <h1 >{props.match.params.origin}</h1>
+      <br/>
+      <h2>to</h2>
+      <br/>
+      <h1 >{props.match.params.destination}</h1>
+      </div>
+      <div className="arrange">
+     <Container className="bike-cont">
+      <Row>
+      <Col>
+      <Card  style={{ width:'30rem',height:'30rem' }}>
+      <Card.Body>
+      <Card.Title className="increase-title" >{props.mode}</Card.Title>
+      <Card.Text className="increase-body">
+      Total distace: {props.response.total_distance} <br/>
+      Total fuelcost: {props.response.fuel_cost} <br/>
+      Carbon emissions: {props.response.carbon_emissions} <br/>
+      </Card.Text>
+      </Card.Body>
+      </Card>
+      </Col>
+      <Col>
+      <Card  bg="success" style={{ width: '30rem',height:'30rem' }}>
+      <Card.Body>
+      <Card.Title  className="increase-title success" >EV Car</Card.Title>
+      <Card.Text className="increase-body success">
+      Electricity Cost: {props.response.evcar_charge}<br/>
+      Carbon Emisssions: {props.response.evcar_carbon_emissions_usage} <br/>
+      Manufaturing carbon emissions: {props.response.evcar_carbon_emission_production} <br/>
+      </Card.Text  >
+      </Card.Body>
+      </Card>
+      </Col>
+      <Col>
+      <Card bg="success" style={{ width: '30rem',height:'30rem' }}>
+      <Card.Body>
+      <Card.Title  className="increase-title success" >EV Bike</Card.Title>
+      <Card.Text  className="increase-body success">
+      Electricity Cost: {props.response.evbike_charge} <br/>
+      Carbon Emisssions: {props.response.evbike_carbon_emissions} <br/>
+      Manufaturing carbon emissions: {props.response.evbike_carbon_emission_production} <br/>
+      </Card.Text>
+      </Card.Body>
+      </Card>
+      </Col>
+      <Col>
+      <Card style={{ width:'30rem',height:'30rem'}}>
+      <Card.Body>
+      <Card.Title  className="increase-title" >BMTC</Card.Title>
+      <Card.Text className="increase-body">
+      Bmtc cost: {props.response.BMTC_charge} <br/>
+      Carbon emission : {props.response.BMTC_carbon_emissions}
+      <div> <p className="filler">carbon emission is calculated per person basis and cost is ₹1 per kilometer</p></div>
+      </Card.Text>
+      </Card.Body>
+      </Card>
+      </Col>
   </Row>
-</Container>
-    </div>
+  </Container>
+  </div>
+  </div>
+}
+</div>
     )
 }
 
